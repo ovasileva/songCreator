@@ -28,6 +28,7 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -52,10 +53,30 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        //if(Yii::$app->user->isGuest) {var_dump('I am guest'); die();};
+      //  var_dump(Yii::$app->user); die();
         if(!Yii::$app->user->isGuest) {
-            $this->redirect(['dashboard/']);
+            return $this->redirect(['song/']);
         }
         return $this->render('index');
+    }
+
+    public function actionSignup()
+    {
+        if(!Yii::$app->user->isGuest) {
+            $this->redirect(['song/']);
+        }
+
+        $model = new RegisterForm();
+        if ($model->load(\Yii::$app->request->post()) && $model->register())
+        {
+            $user = Users::findByUsername($model->username);
+            Yii::$app->user->login($user);
+            //var_dump(Yii::$app->user); die();
+            return $this->goHome();
+        }
+
+        return $this->render('signup', ['model' => $model]);
     }
 
     public function actionLogin()
@@ -98,16 +119,4 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionSignup()
-    {
-        $model = new RegisterForm();
-        if ($model->load(\Yii::$app->request->post()) && $model->register())
-        {
-            $user = Users::findByUsername($model->username);
-            Yii::$app->user->login($user);
-            return $this->goHome();
-        }
-
-        return $this->render('signup', ['model' => $model]);
-    }
 }

@@ -9,9 +9,32 @@ use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 
 class SongController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                   /* [
+                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],*/
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $query = Songs::find()->all();
@@ -32,7 +55,7 @@ class SongController extends Controller
                 $this->redirect(Url::toRoute(['song/view', 'id' => $id]));
             }
         }
-        $model_comments->notice_id = $id;
+        $model_comments->song_id = $id;
         $dataProvider = new ActiveDataProvider([
             'query' => Comments::find()->where(['song_id' => $id]),
             'key' => 'id',
@@ -46,13 +69,17 @@ class SongController extends Controller
 
     public function actionCreate()
     {
-        $model = new Songs();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->user->can('createSong')) {
+            $model = new Songs();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException('Access denied');
         }
     }
 
@@ -70,7 +97,7 @@ class SongController extends Controller
 
     public function actionDelete($id)
     {
-        Comments::deleteAll('notice_id = :id', [':id' => $id]);
+        Comments::deleteAll('song_id = :id', [':id' => $id]);
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }

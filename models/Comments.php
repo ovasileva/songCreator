@@ -10,7 +10,6 @@ use yii\db\Expression;
  * @property integer $id
  * @property integer $author_id
  * @property string $text
- * @property integer $notice_id
  * @property string $created_at
  */
 class Comments extends \yii\db\ActiveRecord

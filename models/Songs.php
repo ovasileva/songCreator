@@ -23,9 +23,8 @@ class Songs extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['text'], 'string'],
             [['created_at'], 'safe'],
-            [['category_id', 'author_id'], 'integer'],
+            [['author_id'], 'integer'],
             [['title'], 'string', 'max' => 100],
-            [['favorite', 'finished'], 'boolean'],
         ];
     }
     public function behaviors()
@@ -53,8 +52,7 @@ class Songs extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'text' => 'Text',
-            'create_at' => 'Create At',
-            'group_id' => 'Group ID',
+            'created_at' => 'Created At',
             'author_id' => 'Author ID',
         ];
     }
@@ -63,7 +61,7 @@ class Songs extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(), ['id' => 'author_id']);
     }
 
-    public function getCategory()
+    public function getCategories()
     {
         return $this->hasOne(Categories::className(), ['id' => 'category_id']);
     }

@@ -12,7 +12,7 @@ class m150825_081149_songs_alter_user_id extends Migration
 
     public function down()
     {
-        $this->db->createCommand('ALTER TABLE songs CHANGE author_id user_id INTEGER')->execute();
+        $this->db->createCommand('ALTER TABLE songs CHANGE `author_id` `user_id` INTEGER')->execute();
     }
 
     /*

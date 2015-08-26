@@ -5,9 +5,6 @@ use Yii;
 
 class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    const ROLE_USER = 1;
-    const ROLE_MODER = 5;
-    const ROLE_ADMIN = 10;
 
     public function beforeAction($action)
     {
@@ -47,6 +44,11 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'authKey' => Yii::t('app', 'authKey'),
             'accessToken' => Yii::t('app', 'accessToken')
         ];
+    }
+
+    public static function find()
+    {
+        return new UsersQuery(get_called_class());
     }
 
     public static function findIdentity($id)
@@ -126,15 +128,17 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->accessToken = Yii::$app->getSecurity()->generatePasswordHash($str);
     }
 
-    public function setPassword($str)
-    {
-        $this->password = $str;
-        $this->hashPassword();
-    }
+
 
     public function hashPassword()
     {
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+    }
+
+   /* public function setPassword($str)
+    {
+        $this->password = $str;
+        $this->hashPassword();
     }
 
     public function setFirstname($str)
@@ -150,7 +154,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function setLanguage($str)
     {
         $this->language = $str;
-    }
+    } */
 
     public function getRole($groupId)
     {

@@ -32,12 +32,14 @@ class RegisterForm extends Model
             $this->_user->hashPassword();
             $this->_user->setToken("{$this->_user->getId()}{$this->_user->username}token");
             $this->_user->setAuthKey("{$this->_user->getId()}{$this->_user->username}authkey");
-            $this->_user->setLanguage(Yii::$app->language);
+            //$this->_user->setLanguage(Yii::$app->language);
             if(!$this->_user->save()) {
                 $this->addErrors($this->_user->errors);
             }
             else
             {
+                $auth = Yii::$app->authManager;
+                $auth->assign(Yii::$app->authManager->getRole('user'),$this->_user->id);
                 return true;
             }
         }

@@ -35,9 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'text:ntext',
             'created_at',
             'author.first_name',
-            'categoty.name',
-            'favorite',
-            'finished',
         ],
     ]) ?>
 
@@ -55,9 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'author.first_name',
             'created_at',
             ['class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
                 'buttons'=>[
                     'delete' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app', 'Delete'),  Url::to(['notice/deletecomment', 'id_comment' => $key]), [
+                        return Html::a(Yii::t('app', 'Delete'),  Url::to(['song/deletecomment', 'id_comment' => $key]), [
                             'data' => [
                                 'confirm' => Yii::t('app', 'Are you sure you want to delete this comment?'),
                                 'method' => 'post',
