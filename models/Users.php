@@ -38,8 +38,8 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
             'password' => Yii::t('app', 'Password'),
-            'first_name' => Yii::t('app', 'Firstname'),
-            'last_name' => Yii::t('app', 'Lastname'),
+            'first_name' => Yii::t('app', 'First Name'),
+            'last_name' => Yii::t('app', 'Last Name'),
             'email' => Yii::t('app', 'Email'),
             'authKey' => Yii::t('app', 'authKey'),
             'accessToken' => Yii::t('app', 'accessToken')
@@ -88,26 +88,6 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->authKey;
     }
 
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getFirstname()
-    {
-        return $this->first_name;
-    }
-
-    public function getLastname()
-    {
-        return $this->last_name;
-    }
-
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
@@ -118,9 +98,9 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return Yii::$app->getSecurity()->validatePassword($password, $this->password);
     }
 
-    public function setAuthKey($str)
+    public function hashPassword()
     {
-        $this->authKey = Yii::$app->getSecurity()->generatePasswordHash($str);
+        $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
     }
 
     public function setToken($str)
@@ -128,39 +108,24 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->accessToken = Yii::$app->getSecurity()->generatePasswordHash($str);
     }
 
-
-
-    public function hashPassword()
+    public function setAuthKey($str)
     {
-        $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        $this->authKey = Yii::$app->getSecurity()->generatePasswordHash($str);
     }
 
-   /* public function setPassword($str)
+    public function getRole()
     {
-        $this->password = $str;
-        $this->hashPassword();
+        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id'])->one()->item_name;
     }
 
-    public function setFirstname($str)
+    public function getFavoriteSongs()
     {
-        $this->first_name = $str;
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('favorite_songs', ['user_id' => 'id'])->all();
     }
 
-    public function setLastname($str)
+    public function getViewedSongs()
     {
-        $this->last_name = $str;
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('viewed_songs', ['user_id' => 'id'])->all();
     }
 
-    public function setLanguage($str)
-    {
-        $this->language = $str;
-    } */
-
-    public function getRole($groupId)
-    {
-        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'role_id'])
-            ->viaTable('user_groups', ['user_id' => 'id'], function ($query) use ($groupId) {
-                $query->andWhere(['group_id' => $groupId]);
-            })->one();
-    }
 }

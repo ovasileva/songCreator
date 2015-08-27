@@ -3,14 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
-
 use app\models\RegisterForm;
 use app\models\Users;
+use app\models\Songs;
 
 class SiteController extends Controller
 {
@@ -101,22 +101,17 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact()
+    public function actionUser($id)
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
+        $user = Users::find()->where(['id' => $id])->one();
+        $dataProvider = new ActiveDataProvider([
+            //'query' => Users::find()->where('id > :count')->addParams([':count' => 23]),
+            'query' => Songs::find(),
         ]);
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
+        return $this->render('user', [
+            'dataProvider' => $dataProvider,
+            'user' => $user,
+        ]);
     }
 
 }

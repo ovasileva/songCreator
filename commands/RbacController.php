@@ -39,16 +39,12 @@ class RbacController extends Controller
         $addInFavorite->description = 'Add song in favorite';
         $auth->add($addInFavorite);
 
-        $createSong = $auth->createPermission('createSong');
-        $createSong->description = 'Create your own song';
-        $auth->add($createSong);
 
 
         //children
         $auth->addChild($user, $addInFavorite);
         $auth->addChild($admin, $viewUsers);
         $auth->addChild($admin, $user);
-        $auth->addChild($admin, $createSong);
 
 
         //assignments

@@ -23,11 +23,11 @@ $stringCreated = $createdAt->format('F j, Y, G:i')
     </div>
     <div class="song-footer clearfix">
         <div class="pull-left">
-            <? if($comments != 1) : ?>
+            <?php if($comments != 1): ?>
                 <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comments') ?></span>
-            <? else : ?>
+            <?php else: ?>
                 <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comment') ?></span>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
         <div class="pull-right">
             <span class="author-date"><?= Html::encode($model->author->first_name . ' ' . $model->author->last_name. ' ('. $stringCreated . ')' )  ?></span>
