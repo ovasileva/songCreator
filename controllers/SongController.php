@@ -12,6 +12,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use app\models\ViewedSongs;
 use app\models\FavoriteSongs;
+use app\models\Categories;
+use app\models\SongsCategories;
 
 class SongController extends Controller
 {
@@ -43,22 +45,27 @@ class SongController extends Controller
 
     public function actionIndex()
     {
-        $query = Songs::find()->all();
+        $query = Songs::find()->where('')->all();
         $dataProvider = new ArrayDataProvider([
             'allModels' => $query,
             'key' => 'id',
         ]);
+
+        $model = new SongsCategories();
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
     public function actionView($id)
     {
-        $viewed_song = new ViewedSongs();
-        $viewed_song->user_id = Yii::$app->user->id;
-        $viewed_song->song_id = $id;
-        $viewed_song->save();
+        if (!ViewedSongs::find()->where(['song_id' => $id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one()) {
+            $viewed_song = new ViewedSongs();
+            // $viewed_song->user_id = Yii::$app->user->id; (fill in model)
+            $viewed_song->song_id = $id;
+            $viewed_song->save();
+        }
 
         $model_comments = new Comments();
         if ($model_comments->load(Yii::$app->request->post())) {
@@ -78,12 +85,22 @@ class SongController extends Controller
         ]);
     }
 
-    public function actionFavorite($id)
+    public function actionAddfavorite($id)
     {
         $favorite_song = new FavoriteSongs();
-        $favorite_song->user_id = Yii::$app->user->id;
+        //$favorite_song->user_id = Yii::$app->user->id; (fill in model)
         $favorite_song->song_id = $id;
         $favorite_song->save();
+
+        return $this->redirect(['song/view', 'id' => $id]);
+    }
+
+    public function actionDeletefavorite($id)
+    {
+        $favorite_song = FavoriteSongs::find()->where(['song_id' => $id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one();
+        $favorite_song->delete();
+
+        return $this->redirect(['song/view', 'id' => $id]);
     }
 
     public function actionUpdate($id)
@@ -115,16 +132,31 @@ class SongController extends Controller
 
     public function actionSettings()
     {
-        $model = new Songs();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $song = new Songs();
+        $category = new Categories();
+
+        if ($category->load(Yii::$app->request->post()) && $category->save())
+        {
+            return $this->redirect(['settings']);
+        }
+
+        if ($song->load(Yii::$app->request->post()) && $song->save()) {
+            foreach (Yii::$app->request->post()['Songs']['songsCategories'] as $category_id) {
+                $song_category = new SongsCategories();
+                $song_category->song_id = $song->id;
+                $song_category->category_id = $category_id;
+                $song_category->save();
+            }
+            return $this->redirect(['view', 'id' => $song->id]);
+
         } else {
             $dataProvider = new ActiveDataProvider([
                 'query' => Users::find(),
                 'key' => 'username',
             ]);
             return $this->render('settings', [
-                'model' => $model,
+                'song' => $song,
+                'category' => $category,
                 'dataProvider' => $dataProvider,
             ]);
         }

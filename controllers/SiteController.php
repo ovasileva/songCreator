@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -104,9 +105,8 @@ class SiteController extends Controller
     public function actionUser($id)
     {
         $user = Users::find()->where(['id' => $id])->one();
-        $dataProvider = new ActiveDataProvider([
-            //'query' => Users::find()->where('id > :count')->addParams([':count' => 23]),
-            'query' => Songs::find(),
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $user->viewedSongs,
         ]);
         return $this->render('user', [
             'dataProvider' => $dataProvider,

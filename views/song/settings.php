@@ -11,10 +11,17 @@ $this->title = Yii::t('app', 'Settings');
 
     <h1><?= Yii::t('app', 'Create song') ?></h1>
 
-<?= $this->render('_form', [
-    'model' => $model,
+<?= $this->render('_create_song', [
+    'song' => $song,
 ]) ?>
 
+</div>
+
+<div class="category-create">
+
+    <h1><?= Yii::t('app', 'Create category')?></h1>
+
+    <?= $this->render('_create_category', ['category' => $category])?>
 </div>
 
 <div class="user-list">

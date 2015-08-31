@@ -11,36 +11,41 @@ use yii\helpers\Url;
     'columns' => [
         [
             'format' => 'raw',
-            'header' => Yii::t('app', 'Songs'),
+            'header' => Yii::t('app', 'Viewed songs'),
             'value' => function ($song) {
                 return Html::a("$song->title", Url::to(['song/view', 'id' => $song->id]));
 
             },
         ],
-        [
+        /*[
             'header' => Yii::t('app', 'Viewed'),
             'format' => 'text',
             'value' => function ($song, $key, $index) use ($user) {
-                $viewed_songs_id = [];
                 foreach ($user->viewedSongs as $viewed_song)
                 {
-                    array_push($viewed_songs_id, $viewed_song->id);
+                    if ($song->id == $viewed_song->id) return '+';
                 }
-                if (in_array($song->id, $viewed_songs_id)) return "+";
                 return "-";
             }
-        ],
+        ],*/
         [
             'header' => Yii::t('app', 'Favorite'),
             'format' => 'text',
             'value' => function ($song, $key, $index) use ($user) {
-                $favorite_songs_id = [];
-                foreach ($user->favoriteSongs as $favorite_song)
-                {
-                    array_push($favorite_songs_id, $favorite_song->id);
-                }
-                if (in_array($song->id, $favorite_songs_id)) return "+";
-                return "-";
+                $favorite_song = $user->getFavoriteSong($song->id);
+                if ($favorite_song) return '+ (' . $favorite_song->created_at . ')';
+                return '-';
+            }
+        ],
+        [
+            'header' => Yii::t('app', 'Last comment'),
+            'format' => 'raw',
+            'value' => function ($song) use ($user)
+            {
+                if ($user->getLastComment($song->id)) {
+                    return $user->getLastComment($song->id)->text . Html::a(' ...View all comments', Url::to(['song/view', 'id' => $song->id]));
+                };
+                return 'no comments';
             }
         ],
     ]

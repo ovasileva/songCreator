@@ -4,7 +4,8 @@ use yii\helpers\Html;
 //use yii\grid\GridView;
 use yii\widgets\ListView;
 use yii\helpers\Url;
-
+use app\models\Categories;
+use yii\helpers\ArrayHelper;
 
 
 $this->title = Yii::t('app', 'Songs');
@@ -13,6 +14,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="songs-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
+    <?php
+    $categories = Categories::find()->all();
+    $items = ArrayHelper::map($categories, 'id', 'name');
+    ?>
+
+    <?= Html::activeDropDownList($model, 'id', $items) ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

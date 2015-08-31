@@ -118,14 +118,20 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id'])->one()->item_name;
     }
 
-    public function getFavoriteSongs()
+    public function getFavoriteSong($song_id)
     {
-        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('favorite_songs', ['user_id' => 'id'])->all();
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('favorite_songs', ['user_id' => 'id'])->where(['id' => $song_id])->one();
     }
 
     public function getViewedSongs()
     {
         return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('viewed_songs', ['user_id' => 'id'])->all();
     }
+
+    public function getLastComment($song_id)
+    {
+        return $this->hasMany(Comments::className(), ['author_id' => 'id'])->where(['song_id' => $song_id])->orderBy('created_at DESC')->limit(1)->one();
+    }
+
 
 }

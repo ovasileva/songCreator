@@ -10,13 +10,18 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Songs'), 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?= Html::a(Yii::t('app', 'Songs'), Url::to(['index'])); ?>
-
 <div class="songs-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+        <?php
+        //var_dump(implode(', ', $model->categories));
+        if(!Yii::$app->user->identity->getFavoriteSong($model->id))
+        echo Html::a(Yii::t('app', 'Add to Favorites'), Url::to(['addfavorite', 'id' => $model->id]));
+        else echo Html::a(Yii::t('app', 'Delete from Favorites'), Url::to(['deletefavorite', 'id' => $model->id]));
+        ?>
+
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -35,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'text:ntext',
             'created_at',
             'author.first_name',
+            'categories',
         ],
     ]) ?>
 

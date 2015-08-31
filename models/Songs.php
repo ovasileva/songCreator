@@ -61,8 +61,13 @@ class Songs extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(), ['id' => 'author_id']);
     }
 
+    public function getSongsCategories()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'author_id']);
+    }
+
     public function getCategories()
     {
-        return $this->hasMany(Categories::className(), ['id' => 'category_id'])->viaTable('songs_categories', ['song_id' => 'id'])->all();
+        return implode(', ', $this->hasMany(Categories::className(), ['id' => 'category_id'])->viaTable('songs_categories', ['song_id' => 'id'])->select(['name'])->asArray()->column());
     }
 }

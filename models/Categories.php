@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ *
+ * @property SongsCategories[] $songsCategories
  */
 class Categories extends \yii\db\ActiveRecord
 {
@@ -40,5 +42,13 @@ class Categories extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSongsCategories()
+    {
+        return $this->hasMany(SongsCategories::className(), ['category_id' => 'id']);
     }
 }

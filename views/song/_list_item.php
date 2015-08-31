@@ -12,7 +12,11 @@ $stringCreated = $createdAt->format('F j, Y, G:i')
     <div class="song-header clearfix">
         <div class="actions pull-right">
             <?= Html::a(Yii::t('app', 'Edit'), Url::to(['update', 'id' => $model->id])); ?>
-            <?= Html::a(Yii::t('app', 'Delete'), Url::to(['delete', 'id' => $model->id])); ?>
+            <?= Html::a(Yii::t('app', 'Delete'), Url::to(['delete', 'id' => $model->id]), ['data' => [
+                    'confirm' => Yii::t('app', 'Are you sure you want to delete this song?'),
+                    'method' => 'post',
+                ]
+            ]); ?>
         </div>
         <div class="song-title">
             <?= Html::a(Html::tag('h3', $model->title),Url::to(['view', 'id' => $model->id])); ?>
