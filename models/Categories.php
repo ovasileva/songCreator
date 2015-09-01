@@ -51,4 +51,9 @@ class Categories extends \yii\db\ActiveRecord
     {
         return $this->hasMany(SongsCategories::className(), ['category_id' => 'id']);
     }
+
+    public function getSongs()
+    {
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('songs_categories', ['category_id' => 'id']);
+    }
 }

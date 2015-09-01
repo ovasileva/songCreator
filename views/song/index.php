@@ -6,6 +6,8 @@ use yii\widgets\ListView;
 use yii\helpers\Url;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use yii\bootstrap\ButtonDropdown;
 
 
 $this->title = Yii::t('app', 'Songs');
@@ -16,11 +18,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php
+//    $categories = Categories::find()->all();
+//    $items = ArrayHelper::map($categories, 'id', 'name');
+    ?>
+
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?php
     $categories = Categories::find()->all();
     $items = ArrayHelper::map($categories, 'id', 'name');
     ?>
 
-    <?= Html::activeDropDownList($model, 'id', $items) ?>
+
+    <?= $form->field($model, 'category_id')->dropDownList($items, ['prompt' => 'All'])?>
+
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Choose') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+
+    <?php// Html::activeDropDownList($model, 'song_id', $items) ?>
+
+    <?php //Html::activeDropDownList($model, 'song_id', $items) ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

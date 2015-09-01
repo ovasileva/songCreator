@@ -45,17 +45,25 @@ class SongController extends Controller
 
     public function actionIndex()
     {
-        $query = Songs::find()->where('')->all();
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $query,
-            'key' => 'id',
-        ]);
+            $model = new SongsCategories();
+            if (Yii::$app->request->post() != [] && Yii::$app->request->post()['SongsCategories']['category_id'] != '') {
+                $model->category_id = Yii::$app->request->post()['SongsCategories']['category_id'];
+                $category = Categories::find()->where(['id' => Yii::$app->request->post()['SongsCategories']['category_id']])->one();
+                $songs = $category->songs;
+            }
+            else {
+                $songs = Songs::find()->all();
+            }
 
-        $model = new SongsCategories();
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ]);
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $songs,
+                'key' => 'id',
+            ]);
+
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+                'model' => $model,
+            ]);
     }
 
     public function actionView($id)
@@ -78,6 +86,7 @@ class SongController extends Controller
             'query' => Comments::find()->where(['song_id' => $id]),
             'key' => 'id',
         ]);
+
         return $this->render('view', [
             'model_comments' => $model_comments,
             'dataProvider' => $dataProvider,
@@ -118,6 +127,9 @@ class SongController extends Controller
     public function actionDelete($id)
     {
         Comments::deleteAll('song_id = :id', [':id' => $id]);
+        ViewedSongs::deleteAll('song_id = :id', [':id' => $id]);
+        FavoriteSongs::deleteAll('song_id = :id', [':id' => $id]);
+        SongsCategories::deleteAll('song_id = :id', [':id' => $id]);
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }

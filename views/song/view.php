@@ -4,6 +4,8 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use app\models\Songs;
+use yii\widgets\ListView;
+use yii\helpers\HtmlPurifier;
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Songs'), 'url' => ['index']];
@@ -31,6 +33,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+
+
+    <?php
+    $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $model->created_at);
+    $stringCreated = $createdAt->format('F j, Y, G:i')
+    ?>
+
+    <div class="song-header clearfix">
+        <div class="song-title">
+            <?= Yii::t('app', $model->title)?>
+        </div>
+    </div>
+    <div class="song-body">
+        <div class="song-text"><?= Yii::t('app', Html::encode($model->text)) ?></div>
+    </div>
+    <div class="song-footer clearfix">
+        <div class="pull-right">
+            <span class="author-date"><?= Html::encode($model->author->first_name . ' ' . $model->author->last_name. ' ('. $stringCreated . ')' )  ?></span>
+        </div>
+    </div>
+
 
     <?= DetailView::widget([
         'model' => $model,

@@ -2,6 +2,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
+use yii\bootstrap\Progress;
+use yii\bootstrap\NavBar;
+use yii\bootstrap\Dropdown;
 
 
 $this->title = Yii::t('app', 'Settings');
@@ -40,4 +43,7 @@ $this->title = Yii::t('app', 'Settings');
             ],
         ]
     ])?>
+
+
+
 </div>

@@ -1,8 +1,9 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\ButtonDropdown;
 ?>
 
 <div class="songs-form">
@@ -25,5 +26,7 @@ use yii\helpers\ArrayHelper;
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
 
 </div>

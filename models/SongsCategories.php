@@ -30,7 +30,7 @@ class SongsCategories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['song_id', 'category_id'], 'required'],
+            [['song_id'], 'required'],
             [['song_id', 'category_id'], 'integer']
         ];
     }
