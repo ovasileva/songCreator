@@ -28,6 +28,7 @@ $this->title = Yii::t('app', 'Settings');
 </div>
 
 <div class="user-list">
+
     <h1><?= Yii::t('app', 'User list')?></h1>
 
     <?= Gridview::widget([
@@ -43,7 +44,5 @@ $this->title = Yii::t('app', 'Settings');
             ],
         ]
     ])?>
-
-
 
 </div>

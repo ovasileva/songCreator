@@ -54,6 +54,7 @@ class Songs extends \yii\db\ActiveRecord
             'text' => Yii::t('app', 'Text'),
             'created_at' => Yii::t('app', 'Created At'),
             'author_id' => Yii::t('app', 'Author ID'),
+            'songsCategories' => Yii::t('app', 'Categories'),
         ];
     }
     public function getAuthor()

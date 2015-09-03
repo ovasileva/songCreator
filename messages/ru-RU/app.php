@@ -8,12 +8,17 @@ return [
     'Settings' => 'Настройки',
     'Password' => 'Пароль',
     'Create account' => 'Создать аккаунт',
+    'Remember Me' => 'Запомнить меня',
+    'Firstname' => 'Имя',
+    'Lastname' => 'Фамилия',
+    'Repeat Password' => 'Повторите пароль',
 
     'Songs' => 'Песни',
     'Edit' => 'Редактировать',
     'Delete' => 'Удалить',
     'Choose' => 'Выбрать',
     'Categories' => 'Категории',
+    'Category' => 'Категория',
     'All' => 'Все',
     'Add to Favorites' => 'Добавить в избранное',
     'Delete from Favorites' => 'Удалить из избранного',
@@ -36,4 +41,7 @@ return [
     'Last comment' => 'Последний комментарий',
     'view all comments' => 'посмотерть все комментарии',
     'no comments from this user' => 'нет комментариев от этого пользователя',
+    'comment' => 'комментарий',
+    'comments' => 'комментариев',
+
 ];

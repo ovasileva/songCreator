@@ -6,7 +6,7 @@ $config = [
     'id' => 'songCreator',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    //'language' => 'ru-RU',
+    'language' => 'ru',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -27,6 +27,7 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',*/
             ],
         ],
+
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['user', 'admin'],
@@ -58,11 +59,19 @@ $config = [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    //'basePath' => '@app/messages',
+                    'basePath' => '@app/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
+                    ],
+                ],
+                'yii*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/vendor/yiisoft/yii2/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'yii.php',
                     ],
                 ],
             ],

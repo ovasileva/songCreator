@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\widgets\WLang;
+use app\models\Lang;
 
 AppAsset::register($this);
 ?>
@@ -29,7 +30,8 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'SongCreator',
-        'brandUrl' => Yii::$app->homeUrl,
+        //'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => '/' . Lang::getCurrent()->url,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -59,6 +61,7 @@ AppAsset::register($this);
 
     <div class="container">
         <?= Breadcrumbs::widget([
+            'homeLink' => ['label' => Yii::t('app', 'Home'), 'url' => '/' . Lang::getCurrent()->url],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>

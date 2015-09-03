@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 $comments = Comments::find()->where(['song_id'=>$model->id])->count();
 $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $model->created_at);
-$stringCreated = $createdAt->format('F j, Y, G:i')
+$stringCreated = $createdAt->format('F j, Y, G:i');
 ?>
 
 <div class="song">

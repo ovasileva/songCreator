@@ -60,28 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h4><?= Yii::t('app', Html::encode('Comments')) ?></h4>
 
-    <?= GridView::widget([
+    <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'text:ntext',
-            'author.first_name',
-            'created_at',
-            ['class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
-                'buttons'=>[
-                    'delete' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app', 'Delete'),  Url::to(['song/deletecomment', 'id_comment' => $key]), [
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this comment?'),
-                                'method' => 'post',
-                            ]
-                        ]);
-                    }
-                ],
-            ],
-        ],
-    ]);
+        'itemOptions' => ['class' => 'item'],
+        'itemView' => '_comment_item',
+        ]);
     ?>
 
     <?=

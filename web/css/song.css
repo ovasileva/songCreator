@@ -11,4 +11,52 @@
 }
 pre {
     text-overflow: ellipsis;
+    background-color: aliceblue;
+}
+
+.comment {
+    background-color: #d9edf7;
+    margin-bottom: 10px;
+    border:1px groove #d9edf7;
+}
+
+.UD-comment {
+    float: right;
+}
+
+.comment-text {
+    margin-bottom:10px;
+}
+
+.author-comment {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+#lang {
+    margin-bottom: 7px;
+}
+
+.songs-create {
+    width: 47%;
+    float: right;
+    background-color: #e1edf7;
+    padding: 0 20px 0 20px;
+}
+
+.category-create {
+    width: 47%;
+    float: left;
+    background-color: #e1edf7;
+    padding: 0 20px 0 20px;
+}
+
+.user-list {
+    width: 47%;
+    float: left;
+    background-color: #e1edf7;
+    padding: 0 20px 0 20px;
 }
