@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model_comments, Yii::t('app', 'song_id'))->hiddenInput()->label(false); ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Send comment'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

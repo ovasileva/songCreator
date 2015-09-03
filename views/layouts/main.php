@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\widgets\WLang;
 
 AppAsset::register($this);
 ?>
@@ -36,16 +37,16 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
 
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->role == 'admin') ?
-                ['label' => 'Settings', 'url' => ['/song/settings'], 'visible' => true] :
-                ['label' => 'Settings', 'url' => ['/song/settings'], 'visible' => false],
+                ['label' => Yii::t('app', 'Settings'), 'url' => ['/song/settings'], 'visible' => true] :
+                ['label' => Yii::t('app', 'Settings'), 'url' => ['/song/settings'], 'visible' => false],
 
             Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
+                ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
                 [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
@@ -66,6 +67,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
+        <?= WLang::widget();?>
         <p class="pull-left">&copy; SongCreator <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>

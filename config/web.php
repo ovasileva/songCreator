@@ -3,13 +3,15 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
+    'id' => 'songCreator',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    //'language' => 'ru-RU',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'DyhMVhxk8N1Ky5hPkuA479vlfTrpROaF',
+            'class' => 'app\components\lang\LangRequest'
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -18,6 +20,7 @@ $config = [
             'enablePrettyUrl' => true,
             // Disable index.php
             'showScriptName' => false,
+            'class'=>'app\components\lang\LangUrlManager',
             'rules' => [
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -48,6 +51,19 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
                 ],
             ],
         ],

@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 
-    <?= $form->field($model, 'category_id')->dropDownList($items, ['prompt' => 'All'])?>
+    <?= $form->field($model, 'category_id')->dropDownList($items, ['prompt' => Yii::t('app', 'All')])?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Choose') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

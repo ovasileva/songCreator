@@ -54,8 +54,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        //if(Yii::$app->user->isGuest) {var_dump('I am guest'); die();};
-      //  var_dump(Yii::$app->user); die();
         if(!Yii::$app->user->isGuest) {
             return $this->redirect(['song/']);
         }
@@ -73,8 +71,8 @@ class SiteController extends Controller
         {
             $user = Users::findByUsername($model->username);
             Yii::$app->user->login($user);
-            //var_dump(Yii::$app->user); die();
-            return $this->goHome();
+            //return $this->goHome();
+            return $this->redirect(['index']);
         }
 
         return $this->render('signup', ['model' => $model]);
@@ -83,12 +81,14 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+            //return $this->goHome();
+            return $this->redirect(['index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->goBack();
+            return $this->redirect(['index']);
         }
         return $this->render('login', [
             'model' => $model,
@@ -99,7 +99,8 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        //return $this->goHome();
+        return $this->redirect(['index']);
     }
 
     public function actionUser($id)

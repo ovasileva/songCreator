@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         else echo Html::a(Yii::t('app', 'Delete from Favorites'), Url::to(['deletefavorite', 'id' => $model->id]));
         ?>
 
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Edit'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="song-body">
-        <div class="song-text"><?= Yii::t('app', Html::encode($model->text)) ?></div>
+        <div class="song-text-view"><pre><?= Yii::t('app', Html::encode($model->text)) ?></pre></div>
     </div>
     <div class="song-footer clearfix">
         <div class="pull-right">
@@ -54,24 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'text:ntext',
-            'created_at',
-            'author.first_name',
-            'categories',
-        ],
-    ]) ?>
-
 </div>
 
 <div class="comments">
 
-    <h4><?= Html::encode('Comments') ?></h4>
+    <h4><?= Yii::t('app', Html::encode('Comments')) ?></h4>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

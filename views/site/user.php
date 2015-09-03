@@ -43,9 +43,9 @@ use yii\helpers\Url;
             'value' => function ($song) use ($user)
             {
                 if ($user->getLastComment($song->id)) {
-                    return $user->getLastComment($song->id)->text . Html::a(' ...View all comments', Url::to(['song/view', 'id' => $song->id]));
+                    return $user->getLastComment($song->id)->text . Html::a(' ...' . Yii::t('app', 'view all comments'), Url::to(['song/view', 'id' => $song->id]));
                 };
-                return 'no comments';
+                return Yii::t('app', 'no comments from this user');
             }
         ],
     ]

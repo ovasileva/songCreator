@@ -14,7 +14,7 @@ $stringCreated = $createdAt->format('F j, Y, G:i')
         </div>
     </div>
     <div class="song-body">
-        <div class="song-text"><?= HtmlPurifier::process($model->text) ?></div>
+        <div class="song-text"><pre><?= HtmlPurifier::process($model->text) ?></pre></div>
     </div>
     <div class="song-footer clearfix">
         <div class="pull-right">

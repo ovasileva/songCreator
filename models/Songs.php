@@ -49,11 +49,11 @@ class Songs extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'text' => 'Text',
-            'created_at' => 'Created At',
-            'author_id' => 'Author ID',
+            'id' => Yii::t('app', 'ID'),
+            'title' => Yii::t('app', 'Title'),
+            'text' => Yii::t('app', 'Text'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'author_id' => Yii::t('app', 'Author ID'),
         ];
     }
     public function getAuthor()

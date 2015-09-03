@@ -8,7 +8,7 @@ $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $model->created_at);
 $stringCreated = $createdAt->format('F j, Y, G:i')
 ?>
 
-<div class="song-thumb">
+<div class="song">
     <div class="song-header clearfix">
         <div class="actions pull-right">
             <?= Html::a(Yii::t('app', 'Edit'), Url::to(['update', 'id' => $model->id])); ?>
@@ -23,7 +23,7 @@ $stringCreated = $createdAt->format('F j, Y, G:i')
         </div>
     </div>
     <div class="song-body">
-        <div class="song-text"><?= HtmlPurifier::process($model->text) ?></div>
+        <div class="song-text"><pre><?= HtmlPurifier::process($model->text) ?></pre></div>
     </div>
     <div class="song-footer clearfix">
         <div class="pull-left">

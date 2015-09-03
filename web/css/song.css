@@ -1,0 +1,14 @@
+.song-text {
+    height: 84px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song {
+    border:2px groove lightsteelblue;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+pre {
+    text-overflow: ellipsis;
+}

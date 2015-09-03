@@ -52,11 +52,11 @@ class Comments extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'author_id' => 'Author ID',
-            'text' => 'Text',
-            'song_id' => 'Song ID',
-            'created_at' => 'Created At',
+            'id' => Yii::t('app', 'ID'),
+            'author_id' => Yii::t('app', 'Author ID'),
+            'text' => Yii::t('app', 'Text'),
+            'song_id' => Yii::t('app', 'Song ID'),
+            'created_at' => Yii::t('app', 'Created At'),
         ];
     }
     public function getAuthor()
