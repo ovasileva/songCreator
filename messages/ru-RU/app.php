@@ -38,7 +38,7 @@ return [
 
     'Viewed songs' => 'Просмотренные песни',
     'Favorite' => 'Избранное',
-    'Last comment' => 'Последний комментарий',
+    'Last comment from {username}' => 'Последний комментарий от {username}',
     'view all comments' => 'посмотерть все комментарии',
     'no comments from this user' => 'нет комментариев от этого пользователя',
     'comment' => 'комментарий',

@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <h3><?=Yii::t('app', 'Categories')?>: <?= $model->categories?></h3>
+
     <p>
         <?php
         //var_dump(implode(', ', $model->categories));

@@ -2,22 +2,12 @@
 
 namespace app\models;
 use Yii;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\helpers\HtmlPurifier;
 
 class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-            if (!\Yii::$app->user->can($action->id)) {
-                throw new ForbiddenHttpException('Access denied');
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public static function tableName()
     {
         return 'users';
@@ -42,7 +32,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'last_name' => Yii::t('app', 'Last Name'),
             'email' => Yii::t('app', 'Email'),
             'authKey' => Yii::t('app', 'authKey'),
-            'accessToken' => Yii::t('app', 'accessToken')
+            'accessToken' => Yii::t('app', 'accessToken'),
         ];
     }
 
@@ -125,7 +115,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function getViewedSongs()
     {
-        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('viewed_songs', ['user_id' => 'id'])->all();
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('viewed_songs', ['user_id' => 'id']);
     }
 
     public function getLastComment($song_id)
@@ -133,5 +123,9 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasMany(Comments::className(), ['author_id' => 'id'])->where(['song_id' => $song_id])->orderBy('created_at DESC')->limit(1)->one();
     }
 
+    public function getFullName ()
+    {
+        return $this->username . ' (' . $this->first_name . ' ' . $this->last_name . ')';
+    }
 
 }

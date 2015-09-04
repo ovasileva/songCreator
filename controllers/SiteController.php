@@ -12,6 +12,7 @@ use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\Users;
 use app\models\Songs;
+use app\models\SongsSearch;
 
 class SiteController extends Controller
 {
@@ -106,11 +107,15 @@ class SiteController extends Controller
     public function actionUser($id)
     {
         $user = Users::find()->where(['id' => $id])->one();
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $user->viewedSongs,
-        ]);
+        $searchModel = new SongsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->get(), $user);
+
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => $user->getViewedSongs(),
+//        ]);
         return $this->render('user', [
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
             'user' => $user,
         ]);
     }

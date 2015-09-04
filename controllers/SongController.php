@@ -3,7 +3,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Songs;
 use app\models\Comments;
-use app\models\Users;
+use app\models\UsersSearch;
 use yii\data\ArrayDataProvider;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -162,14 +162,14 @@ class SongController extends Controller
             return $this->redirect(['view', 'id' => $song->id]);
 
         } else {
-            $dataProvider = new ActiveDataProvider([
-                'query' => Users::find(),
-                'key' => 'username',
-            ]);
+            $searchModel = new UsersSearch();
+            $dataProvider = $searchModel->search((Yii::$app->request->get()));
+
             return $this->render('settings', [
                 'song' => $song,
                 'category' => $category,
                 'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
             ]);
         }
     }

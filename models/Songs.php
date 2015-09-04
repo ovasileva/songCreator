@@ -20,7 +20,7 @@ class Songs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
+            [['title', 'text'], 'required'],
             [['text'], 'string'],
             [['created_at'], 'safe'],
             [['author_id'], 'integer'],

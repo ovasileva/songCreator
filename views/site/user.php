@@ -8,10 +8,12 @@ use yii\helpers\Url;
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         [
             'format' => 'raw',
-            'header' => Yii::t('app', 'Viewed songs'),
+            'attribute' => 'viewedSongs',
+            'label' => Yii::t('app', 'Viewed songs'),
             'value' => function ($song) {
                 return Html::a("$song->title", Url::to(['song/view', 'id' => $song->id]));
 
@@ -29,7 +31,7 @@ use yii\helpers\Url;
             }
         ],*/
         [
-            'header' => Yii::t('app', 'Favorite'),
+            'label' => Yii::t('app', 'Favorite'),
             'format' => 'text',
             'value' => function ($song, $key, $index) use ($user) {
                 $favorite_song = $user->getFavoriteSong($song->id);
@@ -38,7 +40,7 @@ use yii\helpers\Url;
             }
         ],
         [
-            'header' => Yii::t('app', 'Last comment'),
+            'label' => Yii::t('app', 'Last comment from {username}', ['username' => $user->username]),
             'format' => 'raw',
             'value' => function ($song) use ($user)
             {

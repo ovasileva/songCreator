@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\bootstrap\Progress;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Dropdown;
+use app\models\UsersSearch;
 
 
 $this->title = Yii::t('app', 'Settings');
@@ -33,15 +34,18 @@ $this->title = Yii::t('app', 'Settings');
 
     <?= Gridview::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'format' => 'raw',
-                'header' => Yii::t('app', 'Users'),
+                'attribute' => 'fullName',
+                'label' => Yii::t('app', 'Users'),
                 'value' => function ($user) {
-                    return Html::a("$user->username ($user->first_name $user->last_name)", Url::to(['site/user', 'id' => $user->id]));
+                    return Html::a($user->fullName, Url::to(['site/user', 'id' => $user->id]));
 
                 },
             ],
+            //'fullName',
         ]
     ])?>
 
