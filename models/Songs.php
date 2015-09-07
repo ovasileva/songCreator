@@ -54,7 +54,7 @@ class Songs extends \yii\db\ActiveRecord
             'text' => Yii::t('app', 'Text'),
             'created_at' => Yii::t('app', 'Created At'),
             'author_id' => Yii::t('app', 'Author ID'),
-            'songsCategories' => Yii::t('app', 'Categories'),
+            'categories' => Yii::t('app', 'Categories'),
         ];
     }
     public function getAuthor()
@@ -62,13 +62,8 @@ class Songs extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(), ['id' => 'author_id']);
     }
 
-    public function getSongsCategories()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'author_id']);
-    }
-
     public function getCategories()
     {
-        return implode(', ', $this->hasMany(Categories::className(), ['id' => 'category_id'])->viaTable('songs_categories', ['song_id' => 'id'])->select(['name'])->asArray()->column());
+        return $this->hasMany(Categories::className(), ['id' => 'category_id'])->viaTable('songs_categories', ['song_id' => 'id']);
     }
 }

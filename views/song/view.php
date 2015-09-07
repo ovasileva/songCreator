@@ -1,11 +1,8 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use yii\grid\GridView;
 use yii\helpers\Url;
-use app\models\Songs;
 use yii\widgets\ListView;
-use yii\helpers\HtmlPurifier;
+
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Songs'), 'url' => ['index']];
@@ -16,12 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <h3><?=Yii::t('app', 'Categories')?>: <?= $model->categories?></h3>
+    <h3><?=Yii::t('app', 'Categories')?>: <?= implode(', ', $model->getCategories()->select(['name'])->asArray()->column())?></h3>
 
     <p>
         <?php
-        //var_dump(implode(', ', $model->categories));
-        if(!Yii::$app->user->identity->getFavoriteSong($model->id))
+        if(!Yii::$app->user->identity->getFavoriteSongs()->where(['id' => $model->id])->one())
         echo Html::a(Yii::t('app', 'Add to Favorites'), Url::to(['addfavorite', 'id' => $model->id]));
         else echo Html::a(Yii::t('app', 'Delete from Favorites'), Url::to(['deletefavorite', 'id' => $model->id]));
         ?>
@@ -58,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<div class="comments">
+<div class="comments hide-sum">
 
     <h4><?= Yii::t('app', Html::encode('Comments')) ?></h4>
 

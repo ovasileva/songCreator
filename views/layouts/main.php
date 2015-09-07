@@ -40,6 +40,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            (!Yii::$app->user->isGuest) ?
+                ['label' => Yii::t('app', 'Favorites'), 'url' => ['/song/favorites', 'user_id' => Yii::$app->user->identity->id]] :
+                ['label' => '', 'visible' => false],
 
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->role == 'admin') ?
                 ['label' => Yii::t('app', 'Settings'), 'url' => ['/song/settings'], 'visible' => true] :

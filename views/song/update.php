@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Update Song: ', [
+$this->title = Yii::t('app', 'Update song: ', [
         'modelClass' => 'Songs',
     ]) . ' ' . $song->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Songs'), 'url' => ['index']];

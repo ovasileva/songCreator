@@ -14,6 +14,8 @@ use app\models\ViewedSongs;
 use app\models\FavoriteSongs;
 use app\models\Categories;
 use app\models\SongsCategories;
+use app\models\Users;
+use app\models\SongsSearch;
 
 class SongController extends Controller
 {
@@ -34,7 +36,7 @@ class SongController extends Controller
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['index', 'deletecomment', 'view'],
+                        'actions' => ['index', 'deletecomment', 'view', 'favorites', 'addfavorite', 'deletefavorite'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -57,7 +59,7 @@ class SongController extends Controller
 
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $songs,
-                'key' => 'id',
+                'pagination' => ['pageSize' => 10],
             ]);
 
             return $this->render('index', [
@@ -70,9 +72,8 @@ class SongController extends Controller
     {
         if (!ViewedSongs::find()->where(['song_id' => $id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one()) {
             $viewed_song = new ViewedSongs();
-            // $viewed_song->user_id = Yii::$app->user->id; (fill in model)
             $viewed_song->song_id = $id;
-            $viewed_song->save();
+            $viewed_song->save(); //field 'user_id' is filled in model
         }
 
         $model_comments = new Comments();
@@ -84,7 +85,6 @@ class SongController extends Controller
         $model_comments->song_id = $id;
         $dataProvider = new ActiveDataProvider([
             'query' => Comments::find()->where(['song_id' => $id]),
-            'key' => 'id',
         ]);
 
         return $this->render('view', [
@@ -97,9 +97,8 @@ class SongController extends Controller
     public function actionAddfavorite($id)
     {
         $favorite_song = new FavoriteSongs();
-        //$favorite_song->user_id = Yii::$app->user->id; (fill in model)
         $favorite_song->song_id = $id;
-        $favorite_song->save();
+        $favorite_song->save(); //field 'user_id' is filled in model
 
         return $this->redirect(['song/view', 'id' => $id]);
     }
@@ -116,6 +115,13 @@ class SongController extends Controller
     {
         $song = $this->findModel($id);
         if ($song->load(Yii::$app->request->post()) && $song->save()) {
+            SongsCategories::deleteAll('song_id = :id', [':id' => $id]);
+            foreach (Yii::$app->request->post()['Songs']['categories'] as $category_id) {
+                $song_category = new SongsCategories();
+                $song_category->song_id = $song->id;
+                $song_category->category_id = $category_id;
+                $song_category->save();
+            }
             return $this->redirect(['view', 'id' => $song->id]);
         } else {
             return $this->render('update', [
@@ -153,7 +159,7 @@ class SongController extends Controller
         }
 
         if ($song->load(Yii::$app->request->post()) && $song->save()) {
-            foreach (Yii::$app->request->post()['Songs']['songsCategories'] as $category_id) {
+            foreach (Yii::$app->request->post()['Songs']['categories'] as $category_id) {
                 $song_category = new SongsCategories();
                 $song_category->song_id = $song->id;
                 $song_category->category_id = $category_id;
@@ -172,6 +178,19 @@ class SongController extends Controller
                 'searchModel' => $searchModel,
             ]);
         }
+    }
+
+    public function actionFavorites($user_id)
+    {
+        $user = Users::find()->where(['id' => $user_id])->one();
+        $searchModel = new SongsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->get(), $user->getFavoriteSongs());
+
+        return $this->render('favorites', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'user' => $user,
+        ]);
     }
 
     protected function findModel($id)

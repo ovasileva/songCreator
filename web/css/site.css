@@ -89,3 +89,9 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+.site-signup {
+    width: 50%;
+    background-color: #afd9ee;
+    padding: 0px 30px 5px 30px;
+}

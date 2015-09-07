@@ -51,7 +51,6 @@ class FavoriteSongs extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        //behaviors
         return [
             [
                 'class' => TimestampBehavior::className(),

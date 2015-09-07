@@ -16,7 +16,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'first_name', 'last_name', 'email'], 'required'],
+            [['username', 'password', 'first_name', 'email'], 'required'],
             [['username', 'email'], 'unique'],
             [['username', 'password', 'first_name', 'last_name', 'email'], 'string', 'max' => 64],
         ];
@@ -108,9 +108,9 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id'])->one()->item_name;
     }
 
-    public function getFavoriteSong($song_id)
+    public function getFavoriteSongs()
     {
-        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('favorite_songs', ['user_id' => 'id'])->where(['id' => $song_id])->one();
+        return $this->hasMany(Songs::className(), ['id' => 'song_id'])->viaTable('favorite_songs', ['user_id' => 'id']);
     }
 
     public function getViewedSongs()

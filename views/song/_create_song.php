@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\ButtonDropdown;
 ?>
 
-<div class="songs-form">
+<div class="song-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -19,7 +19,7 @@ use yii\bootstrap\ButtonDropdown;
     $items = ArrayHelper::map($categories, 'id', 'name');
     ?>
 
-    <?= $form->field($song, 'songsCategories')->checkboxList($items); ?>
+    <?= $form->field($song, 'categories')->checkboxList($items); ?>
 
     <div class="form-group">
         <?= Html::submitButton($song->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $song->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

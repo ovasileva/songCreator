@@ -9,7 +9,7 @@ $stringCreated = $createdAt->format('F j, Y, G:i');
 ?>
 
 <div class="song">
-    <div class="song-header clearfix">
+    <div class="song-header">
         <div class="actions pull-right">
             <?= Html::a(Yii::t('app', 'Edit'), Url::to(['update', 'id' => $model->id])); ?>
             <?= Html::a(Yii::t('app', 'Delete'), Url::to(['delete', 'id' => $model->id]), ['data' => [
@@ -27,10 +27,12 @@ $stringCreated = $createdAt->format('F j, Y, G:i');
     </div>
     <div class="song-footer clearfix">
         <div class="pull-left">
-            <?php if($comments != 1): ?>
-                <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comments') ?></span>
-            <?php else: ?>
+            <?php if($comments % 10 == 1): ?>
                 <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comment') ?></span>
+            <?php elseif(($comments % 10 == 2 || $comments % 10 == 3 || $comments % 10 == 4) && ($comments % 100 - $comments % 10 != 10)): ?>
+                <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comments ') ?></span>
+            <?php else: ?>
+                <span class="song-comments"><?= Html::encode($comments . ' ') . Yii::t('app', 'comments') ?></span>
             <?php endif; ?>
         </div>
         <div class="pull-right">

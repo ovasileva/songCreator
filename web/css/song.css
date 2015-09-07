@@ -32,10 +32,6 @@ pre {
     font-weight: bold;
 }
 
-.clear {
-    clear: both;
-}
-
 #lang {
     margin-bottom: 7px;
 }
@@ -59,4 +55,20 @@ pre {
     float: left;
     background-color: #e1edf7;
     padding: 0 20px 0 20px;
+}
+
+.hide-sum .summary
+{
+    display: none;
+}
+
+.favorite-songs
+{
+    background-color: #e1edf7;
+    padding: 10px;
+}
+
+.selector
+{
+    width: 30%;
 }

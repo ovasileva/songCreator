@@ -33,7 +33,6 @@ class Comments extends \yii\db\ActiveRecord
     }
     public function behaviors()
     {
-        //behaviors
         return [
             [
                 'class' => TimestampBehavior::className(),
@@ -61,7 +60,6 @@ class Comments extends \yii\db\ActiveRecord
     }
     public function getAuthor()
     {
-        //getAuthor
         return $this->hasOne(Users::className(), ['id' => 'author_id']);
     }
 }

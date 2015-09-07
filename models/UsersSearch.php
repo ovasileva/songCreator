@@ -8,18 +8,12 @@ class UsersSearch extends \yii\base\Model
 {
     public $fullName;
 
-    /* Настройка правил */
     public function rules() {
         return [
-            /* your other rules */
             [['fullName'], 'safe']
         ];
     }
 
-    /**
-     * Настроим поиск для использования
-     * поля fullName
-     */
     public function search($params) {
         $query = Users::find();
         $dataProvider = new ActiveDataProvider([
@@ -27,10 +21,6 @@ class UsersSearch extends \yii\base\Model
             'pagination' => ['pageSize' => 10]
         ]);
 
-        /**
-         * Настройка параметров сортировки
-         * Важно: должна быть выполнена раньше $this->load($params)
-         */
         $dataProvider->setSort([
             'attributes' => [
                 'fullName' => [
@@ -45,9 +35,6 @@ class UsersSearch extends \yii\base\Model
             return $dataProvider;
         }
 
-        /* Настроим правила фильтрации */
-
-        // фильтр по имени
         $query->andWhere('first_name LIKE "%' . $this->fullName . '%" ' .
             'OR last_name LIKE "%' . $this->fullName . '%" ' .
             'OR username LIKE "%' . $this->fullName . '%" '

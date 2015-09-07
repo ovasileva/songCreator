@@ -3,15 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\Users;
-use app\models\Songs;
 use app\models\SongsSearch;
 
 class SiteController extends Controller
@@ -72,7 +69,7 @@ class SiteController extends Controller
         {
             $user = Users::findByUsername($model->username);
             Yii::$app->user->login($user);
-            //return $this->goHome();
+            //return $this->goHome(); (without saving the language)
             return $this->redirect(['index']);
         }
 
@@ -108,11 +105,8 @@ class SiteController extends Controller
     {
         $user = Users::find()->where(['id' => $id])->one();
         $searchModel = new SongsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->get(), $user);
+        $dataProvider = $searchModel->search(Yii::$app->request->get(), $user->getViewedSongs());
 
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $user->getViewedSongs(),
-//        ]);
         return $this->render('user', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

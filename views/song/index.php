@@ -17,72 +17,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php
-//    $categories = Categories::find()->all();
-//    $items = ArrayHelper::map($categories, 'id', 'name');
-    ?>
+    <div class="selector">
+        <?php $form = ActiveForm::begin(); ?>
 
+        <?php
+        $categories = Categories::find()->all();
+        $items = ArrayHelper::map($categories, 'id', 'name');
+        ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($model, 'category_id')->dropDownList($items, ['prompt' => Yii::t('app', 'All')])->label(Yii::t('app', 'Category')) ?>
 
-    <?php
-    $categories = Categories::find()->all();
-    $items = ArrayHelper::map($categories, 'id', 'name');
-    ?>
-
-
-    <?= $form->field($model, 'category_id')->dropDownList($items, ['prompt' => Yii::t('app', 'All')])->label(Yii::t('app', 'Category'))?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Choose') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="form-group">
+            <?= Html::submitButton(Yii::t('app', 'Choose'), ['class' => 'btn btn-success']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
-
-
-    <?php// Html::activeDropDownList($model, 'song_id', $items) ?>
-
-    <?php //Html::activeDropDownList($model, 'song_id', $items) ?>
-
+    <div class="song-list hide-sum"">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
         'itemView' => '_list_item',
-        //'pager' => ['class' => kop\y2sp\ScrollPager::className(),'negativeMargin' => 500]
-//        'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
-//
-//            'title',
-//            'text',
-//            'author.first_name',
-//            'create_at',
-//
-//            ['class' => 'yii\grid\ActionColumn',
-//                //'template' => '{view} {update} {delete}',
-//
-//                'buttons'=>[
-//                    'view' => function ($url, $model, $key) {
-//                        return Html::a(Yii::t('app', 'View'), Url::to(['notice/view', 'id' => $model->id, 'group_identifier' => Groups::findOne($model->group_id)->identifier]));
-//
-//                        },
-//
-//                    'update' => function ($url, $model, $group) {
-//                        return Html::a(Yii::t('app', 'Update'), Url::to(['notice/update', 'id' => $model->id, 'group_identifier' => Groups::findOne($model->group_id)->identifier]));
-//
-//                    },
-//
-//                    'delete' => function ($url, $model, $group) {
-//                        return Html::a(Yii::t('app', 'Delete'), Url::to(['notice/delete', 'id' => $model->id, 'group_identifier' => Groups::findOne($model->group_id)->identifier]), [
-//                            //'class' => 'btn btn-danger',
-//                            'data' => [
-//                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-//                                'method' => 'post',
-//                            ]
-//                        ]);
-//                    }
-//                ],
-//            ],
-//        ],
     ]); ?>
+    </div>
 
 </div>

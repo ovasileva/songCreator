@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 $this->title = Html::encode('SongCreator') . Yii::t('app', 'Sign up');
 ?>
 
-<div class='site-login'>
+<div class='site-signup'>
     <h1><?= Yii::t('app', 'Sign up') ?></h1>
 
     <?php
@@ -27,8 +27,8 @@ $this->title = Html::encode('SongCreator') . Yii::t('app', 'Sign up');
     <?= $form->field($model, Yii::t('app', 'repeat_password'))->passwordInput() ?>
 
 
-    <div class="form-group sign-block">
-        <?= Html::submitButton(Yii::t('app', 'Create account'), ['class' => 'btn btn-primary login-button']) ?>
+    <div class="form-group">
+        <?= Html::submitButton(Yii::t('app', 'Create account'), ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end() ?>

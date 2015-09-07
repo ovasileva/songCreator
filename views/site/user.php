@@ -2,39 +2,30 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use app\models\FavoriteSongs;
 ?>
 
-<h1><?= Yii::t('app', $user->username . ' ' . '(' . $user->first_name . ' ' . $user->last_name . ')')?></h1>
+<h1><?= Yii::t('app', $user->fullName)?></h1>
 
+<div class="user-actions-list hide-sum">
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
+    'filterModel'=> $searchModel,
     'columns' => [
         [
             'format' => 'raw',
-            'attribute' => 'viewedSongs',
+            'attribute' => 'title',
             'label' => Yii::t('app', 'Viewed songs'),
             'value' => function ($song) {
                 return Html::a("$song->title", Url::to(['song/view', 'id' => $song->id]));
 
             },
         ],
-        /*[
-            'header' => Yii::t('app', 'Viewed'),
-            'format' => 'text',
-            'value' => function ($song, $key, $index) use ($user) {
-                foreach ($user->viewedSongs as $viewed_song)
-                {
-                    if ($song->id == $viewed_song->id) return '+';
-                }
-                return "-";
-            }
-        ],*/
         [
             'label' => Yii::t('app', 'Favorite'),
             'format' => 'text',
-            'value' => function ($song, $key, $index) use ($user) {
-                $favorite_song = $user->getFavoriteSong($song->id);
+            'value' => function ($song) use ($user) {
+                $favorite_song = FavoriteSongs::find()->where(['song_id' => $song->id])->andWhere(['user_id' => $user->id])->one();
                 if ($favorite_song) return '+ (' . $favorite_song->created_at . ')';
                 return '-';
             }
@@ -44,11 +35,14 @@ use yii\helpers\Url;
             'format' => 'raw',
             'value' => function ($song) use ($user)
             {
-                if ($user->getLastComment($song->id)) {
-                    return $user->getLastComment($song->id)->text . Html::a(' ...' . Yii::t('app', 'view all comments'), Url::to(['song/view', 'id' => $song->id]));
+                $last_comment = $user->getLastComment($song->id);
+                 if ($user->getLastComment($song->id)) {
+                    return $last_comment->text . ' ('. $last_comment->created_at . ')' . Html::a(' ...' . Yii::t('app', 'view all comments'), Url::to(['song/view', 'id' => $song->id]));
                 };
                 return Yii::t('app', 'no comments from this user');
             }
         ],
     ]
 ]);
+?>
+</div>
